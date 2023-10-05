@@ -6,6 +6,7 @@ import { Estudiante } from './entities/estudiante.entity';
 import { Clase } from 'src/clases/entities/clase.entity';
 import { EstudianteClase } from './entities/estudiante_clase.entity';
 
+//Configuracion
 @Module({
   imports:[TypeOrmModule.forFeature([Estudiante,Clase,EstudianteClase])],
   controllers: [EstudianteController],

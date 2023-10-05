@@ -10,19 +10,13 @@ export class EscuelaService {
 
   constructor(@InjectRepository(Escuela) private readonly escuelaRepository:Repository<Escuela>){}
 
+  //Agregar escuela
   async create(createEscuelaDto: CreateEscuelaDto) {
     try {
-      const escuela = await this.escuelaRepository.findOne({
-        where: {
-            id: createEscuelaDto.id
-        }
-    });
-    if(escuela){
-      return new HttpException('Escuela already exist', HttpStatus.CONFLICT);
-    }
-    const nuevaEscuela = this.escuelaRepository.create(createEscuelaDto);
+      const escuela : Escuela = await this.escuelaRepository.save(new Escuela(createEscuelaDto.nombre, createEscuelaDto.domicilio))
+
+      if(escuela) return `Se creo la escuela: ${escuela.nombre}`;
       
-    return this.escuelaRepository.save(nuevaEscuela);
     } catch {
       throw new HttpException({
         status: HttpStatus.CONFLICT,
@@ -33,6 +27,7 @@ export class EscuelaService {
     }
   }
 
+  //Buscar todas las escuelas
   findAll() {
     try {
       return this.escuelaRepository.find()
@@ -46,6 +41,7 @@ export class EscuelaService {
     }
   }
 
+  //Buscar una escuela
   async findOne(id: number) {
     try {
       const escuela = await this.escuelaRepository.findOne({
@@ -54,7 +50,7 @@ export class EscuelaService {
         }
     });
     if(!escuela){
-        return new HttpException('Escuela not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Escuela no encontrada', HttpStatus.NOT_FOUND);
     }
 
     return escuela;
@@ -69,6 +65,7 @@ export class EscuelaService {
     }
   }
 
+  //Actualizar escuela
   async update(id: number, updateEscuelaDto: UpdateEscuelaDto) {
     try {
       const escuela = await this.escuelaRepository.findOne({
@@ -77,7 +74,7 @@ export class EscuelaService {
         }
     })
     if(!escuela){
-        return new HttpException('Escuela not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Escuela no encontrada', HttpStatus.NOT_FOUND);
     }
     console.log(escuela)
     const updateEscuela = Object.assign(escuela, updateEscuelaDto)
@@ -94,15 +91,16 @@ export class EscuelaService {
     }
   }
 
+  //Eliminar escuela
   async remove(id: number) {
     try {
       const result = await this.escuelaRepository.delete({id});
 
       if(result.affected === 0){
-          return new HttpException('Escuela not found', HttpStatus.NOT_FOUND);
+          return new HttpException('Escuela no encontrada', HttpStatus.NOT_FOUND);
       }
 
-      return 'Escuela: ' + id + ' Eliminado';
+      return 'Escuela: ' + id + ' Eliminada';
 
     } catch {
       throw new HttpException({

@@ -20,7 +20,7 @@ export class EstudianteService {
               private estudianteClaseRepository:Repository<EstudianteClase>)
   {}
 
-
+  //Agregar estudiante
   async create(estudianteDto: EstudianteDto) {
     //const fecha = new Date();
     const estudiante : Estudiante = await this.estudianteRepository.save(new Estudiante(estudianteDto.nombre,estudianteDto.apellido,estudianteDto.fecha_nacimiento))
@@ -30,6 +30,7 @@ export class EstudianteService {
       return 'no se creo estudiante';
   }
 
+  //Agregar clase
   async addClase(body):Promise<any>{
     const {claseId,estudianteId} = body;
     const estudiante = await this.estudianteRepository.findOne({where:{id:estudianteId}})
@@ -45,6 +46,7 @@ export class EstudianteService {
   }
 
 
+  //Buscar todos los estudiantes
   findAll() {
     try {
       return this.estudianteRepository.find()
@@ -57,7 +59,7 @@ export class EstudianteService {
     );
     }
   }
-
+  //Buscar un estudiante
   async findOne(id: number) {
     try {
       const estudiante = await this.estudianteRepository.findOne({
@@ -66,7 +68,7 @@ export class EstudianteService {
         }
     });
     if(!estudiante){
-        return new HttpException('Estudiante not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Estudiante no encontrado', HttpStatus.NOT_FOUND);
     }
 
     return estudiante;
@@ -81,6 +83,7 @@ export class EstudianteService {
     }
   }
 
+  //Actualizar estudiante
   async update(id: number, UpdateEstudianteDto: UpdateEstudianteDto) {
     try {
       const estudiante = await this.estudianteRepository.findOne({
@@ -89,7 +92,7 @@ export class EstudianteService {
         }
     })
     if(!estudiante){
-        return new HttpException('Profesor not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Estudiante no encontrado', HttpStatus.NOT_FOUND);
     }
     console.log(estudiante)
     const updateEstudiante = Object.assign(estudiante, UpdateEstudianteDto)
@@ -105,13 +108,13 @@ export class EstudianteService {
     );
     }
   }
-
+  //Estudiante eliminado
   async remove(id: number) {
     try {
       const result = await this.estudianteRepository.delete({id});
 
       if(result.affected === 0){
-          return new HttpException('Estudiante not found', HttpStatus.NOT_FOUND);
+          return new HttpException('Estudiante no encontrado', HttpStatus.NOT_FOUND);
       }
 
       return 'Estudiante: ' + id + ' Eliminado';

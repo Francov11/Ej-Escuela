@@ -1,8 +1,8 @@
 import { Ciudad } from "src/ciudad/entities/ciudad.entity";
 import { Clase } from "src/clases/entities/clase.entity";
 
+//Crear escuela DTO 
 export class CreateEscuelaDto {
-    id:number;
     nombre:string;
     domicilio:string;
     ciudad_fk:Ciudad[];

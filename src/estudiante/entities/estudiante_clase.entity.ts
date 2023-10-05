@@ -3,19 +3,16 @@ import { Estudiante } from "./estudiante.entity";
 import { Clase } from "src/clases/entities/clase.entity";
 import { Asistencia } from "src/asistencia/entities/asistencia.entity";
 
+//Entidad clase-estudiante
 @Entity('clase_estudiante')
 export class EstudianteClase{
+    //Atributos
     @PrimaryColumn()
     estudianteId:number;
 
     @PrimaryColumn()
     claseId:number;
-
-    constructor(estudianteId:number,claseId:number){
-        this.estudianteId = estudianteId;
-        this.claseId = claseId;
-    }
-
+    
     @ManyToOne(()=>Estudiante,estudiante=>estudiante.estudianteClases)
     @JoinColumn()
     estudiante:Estudiante;
@@ -26,5 +23,12 @@ export class EstudianteClase{
 
     @OneToMany(()=>Asistencia,asistencia=>asistencia.estudianteClase)
     asistencias:Asistencia[];
+    
+    //Constructor
+    constructor(estudianteId:number,claseId:number){
+        this.estudianteId = estudianteId;
+        this.claseId = claseId;
+    }
+
 
 }

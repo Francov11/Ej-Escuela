@@ -3,6 +3,7 @@ import { EscuelaService } from './escuela.service';
 import { CreateEscuelaDto } from './dto/create-escuela.dto';
 import { UpdateEscuelaDto } from './dto/update-escuela.dto';
 
+//Rutas
 @Controller('escuela')
 export class EscuelaController {
   constructor(private readonly escuelaService: EscuelaService) {}

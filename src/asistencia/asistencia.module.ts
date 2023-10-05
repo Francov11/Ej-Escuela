@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Asistencia } from './entities/asistencia.entity';
 import { EstudianteClase } from 'src/estudiante/entities/estudiante_clase.entity';
 
+//Configuracion
 @Module({
   imports:[TypeOrmModule.forFeature([Asistencia,EstudianteClase])],
   controllers: [AsistenciaController],

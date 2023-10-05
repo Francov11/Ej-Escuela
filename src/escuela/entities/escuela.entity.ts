@@ -2,6 +2,7 @@ import { Ciudad } from "src/ciudad/entities/ciudad.entity";
 import { Clase } from "src/clases/entities/clase.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+//Entidad escuela
 @Entity({name:'escuela'})
 export class Escuela {
     //Atributos

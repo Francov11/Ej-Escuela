@@ -3,6 +3,7 @@ import { EstudianteService } from './estudiante.service';
 import { EstudianteDto,  } from './dto/create-estudiante.dto';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto';
 
+//Rutas
 @Controller('estudiante')
 export class EstudianteController {
   constructor(private readonly estudianteService: EstudianteService) {}

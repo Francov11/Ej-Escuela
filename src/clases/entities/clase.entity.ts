@@ -1,13 +1,13 @@
 import { Escuela } from "src/escuela/entities/escuela.entity";
-import { Estudiante } from "src/estudiante/entities/estudiante.entity";
 import { EstudianteClase } from "src/estudiante/entities/estudiante_clase.entity";
 import { Profesor } from "src/profesor/entities/profesor.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+//Entidad clase
 @Entity({name:'clase'})
 export class Clase {
 
-    //atributos
+    //Atributos
     @PrimaryGeneratedColumn()
     id:number;
 
@@ -22,19 +22,15 @@ export class Clase {
     @JoinColumn({name:"fk_id_escuela"})
     escuela:Escuela;
 
-    // @ManyToMany(()=>Estudiante,estudiantes=>estudiantes.clases)
-    // @JoinTable({name:'clase_estudiante'})
-    // estudiantes:Estudiante[];
-
     @OneToMany(()=>EstudianteClase,estudianteclases=>estudianteclases.clase)
     estudianteClases:EstudianteClase[];
 
-    //constructor
+    //Constructor
     constructor(nombre:string){
         this.nombre=nombre;
     }
 
-    //getters and setters
+    //Metodos
     public getId(): number {
         return this.id;
     }

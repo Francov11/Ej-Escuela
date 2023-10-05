@@ -1,1 +1,4 @@
-export class CreateClaseDto {}
+//Crear clase DTO
+export class CreateClaseDto {
+    nombre: string;
+}

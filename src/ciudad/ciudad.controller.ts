@@ -1,40 +1,36 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, ParseIntPipe } from '@nestjs/common';
 import { CiudadService } from './ciudad.service';
-import { Ciudad } from './entities/ciudad.entity';
-import { CiudadDTO } from './dto/ciudad.dto';
+import { CreateCiudadDto } from './dto/create-ciudad.dto';
+import { UpdateCiudadDto } from './dto/update-ciudad.dto';
 
+//Rutas
 @Controller('ciudad')
 export class CiudadController {
 
     constructor(private readonly ciudadService: CiudadService){}
 
-    @Get('raw')
-    async getAllRaw():Promise<CiudadDTO[]>{
-        return await this.ciudadService.findAllRaw();
+    @Post()
+    create(@Body() createCiudadDto: CreateCiudadDto) {
+      return this.ciudadService.create(createCiudadDto);
     }
-
-    @Get('orm')
-    async getAllOrm():Promise<CiudadDTO[]>{
-        return await this.ciudadService.findAllOrm();
+  
+    @Get()
+    findAll() {
+      return this.ciudadService.findAll();
     }
-
+  
     @Get(':id')
-    async getId(@Param('id')id:number) : Promise<CiudadDTO>{
-        return await this.ciudadService.findById(id);
+    findOne(@Param('id') id: string) {
+      return this.ciudadService.findOne(+id);
     }
-
-    @Post('crear')
-    async crearCiudad(@Body() ciudadDTO:CiudadDTO):Promise<boolean>{
-        return this.ciudadService.create(ciudadDTO);
+  
+    @Patch(':id')
+    update(@Param('id', ParseIntPipe) id: number, @Body() ciudad: UpdateCiudadDto){
+        return this.ciudadService.update(id,ciudad);
     }
-
-    @Put('actualizar/:id')
-    async actualizarCiudadId(@Body() ciudadDTO:CiudadDTO, @Param('id') id: number): Promise<String> {
-        return this.ciudadService.update(ciudadDTO,id)
-    }
-
-    @Delete('eliminar/:id')
-    async eliminarCiudad(@Param('id')id:number) : Promise<Ciudad>{
-        return await this.ciudadService.delete(id);
+  
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number){
+        return this.ciudadService.remove(id);
     }
 }

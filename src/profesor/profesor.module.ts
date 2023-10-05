@@ -7,6 +7,7 @@ import { Clase } from 'src/clases/entities/clase.entity';
 import { CiudadProfesor } from 'src/ciudad/entities/ciudad_profesor.entity';
 import { Ciudad } from 'src/ciudad/entities/ciudad.entity';
 
+//Configuracion
 @Module({
   imports:[TypeOrmModule.forFeature([Profesor,Clase,Ciudad,CiudadProfesor])],
   controllers: [ProfesorController],

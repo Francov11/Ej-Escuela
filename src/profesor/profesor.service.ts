@@ -18,6 +18,7 @@ export class ProfesorService {
               private readonly ciudadProfesorRepository:Repository<CiudadProfesor>
                ){}
 
+  //Agregar domicilio
   async createDomicilio(body){
     const { ciudadId, profesorId, domicilio} = body;
 
@@ -33,19 +34,13 @@ export class ProfesorService {
     return await this.ciudadProfesorRepository.save(new CiudadProfesor(ciudadId,profesorId,domicilio))
   }
 
+  //Crear profesor
   async create(createProfesorDto: CreateProfesorDto) {
     try {
-      const profesor = await this.profesorRepository.findOne({
-        where: {
-            id: createProfesorDto.id
-        }
-    });
-    if(profesor){
-      return new HttpException('Profesor already exist', HttpStatus.CONFLICT);
-    }
-    const nuevoProfesor = this.profesorRepository.create(createProfesorDto);
-      
-    return this.profesorRepository.save(nuevoProfesor);
+      const profesor : Profesor = await this.profesorRepository.save(new Profesor(createProfesorDto.nombre, createProfesorDto.apellido))
+
+      if(profesor) return `Se creo el profesor: ${profesor.nombre}`;
+
     } catch {
       throw new HttpException({
         status: HttpStatus.CONFLICT,
@@ -56,6 +51,7 @@ export class ProfesorService {
     }
   }
 
+  //Buscar todos los profesores
   findAll() {
     try {
       return this.profesorRepository.find()
@@ -69,6 +65,7 @@ export class ProfesorService {
     }
   }
 
+  //Buscar un profesor
   async findOne(id: number) {
     try {
       const profesor = await this.profesorRepository.findOne({
@@ -77,7 +74,7 @@ export class ProfesorService {
         }
     });
     if(!profesor){
-        return new HttpException('Profesor not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Profesor no encontrado', HttpStatus.NOT_FOUND);
     }
 
     return profesor;
@@ -92,6 +89,7 @@ export class ProfesorService {
     }
   }
 
+  //Actualizar profesor
   async update(id: number, updateProfesorDto: UpdateProfesorDto) {
     try {
       const profesor = await this.profesorRepository.findOne({
@@ -100,7 +98,7 @@ export class ProfesorService {
         }
     })
     if(!profesor){
-        return new HttpException('Profesor not found', HttpStatus.NOT_FOUND);
+        return new HttpException('Profesor no encontrado', HttpStatus.NOT_FOUND);
     }
     console.log(profesor)
     const updateProfesor = Object.assign(profesor, updateProfesorDto)
@@ -117,12 +115,13 @@ export class ProfesorService {
     }
   }
 
+  //Eliminar profesor
   async remove(id: number) {
     try {
       const result = await this.profesorRepository.delete({id});
 
       if(result.affected === 0){
-          return new HttpException('Profesor not found', HttpStatus.NOT_FOUND);
+          return new HttpException('Profesor no encontrado', HttpStatus.NOT_FOUND);
       }
 
       return 'Profesor: ' + id + ' Eliminado';
